@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - IMS</title>
+    <link rel="stylesheet" href="../css/admin-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>IMS Admin</h2>
+            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="admin-dashboard.html">
+                        <i class="fas fa-chart-line"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="products.html">
+                        <i class="fas fa-box"></i>
+                        Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="orders.html">
+                        <i class="fas fa-shopping-cart"></i>
+                        Orders
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="customers.html">
+                        <i class="fas fa-users"></i>
+                        Customers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="suppliers.html">
+                        <i class="fas fa-truck"></i>
+                        Suppliers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="reports.html">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="settings.html">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a href="login.html">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search settings...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user-info">
+                    <span id="username">Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="section-header">
+                    <h1>Settings</h1>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Account Settings</h3>
+                        <form id="accountForm">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Change Password</h3>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Notification Settings</h3>
+                        <form id="notificationForm">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="lowStockAlerts" checked>
+                                    Low Stock Alerts
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="orderUpdates" checked>
+                                    Order Updates
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>System Settings</h3>
+                        <form id="systemForm">
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select id="language">
+                                    <option value="en">English</option>
+                                    <option value="es">Spanish</option>
+                                    <option value="fr">French</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="timezone">Timezone</label>
+                                <select id="timezone">
+                                    <option value="UTC">UTC</option>
+                                    <option value="EST">Eastern Time</option>
+                                    <option value="CST">Central Time</option>
+                                    <option value="PST">Pacific Time</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dateFormat">Date Format</label>
+                                <select id="dateFormat">
+                                    <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/settings.js"></script>
+</body>
+</html> 
