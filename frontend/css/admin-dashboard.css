@@ -593,7 +593,7 @@ body {
     .sidebar.active {
         transform: translateX(0);
     }
-    
+
     .main-content {
         margin-left: 0;
     }
@@ -908,7 +908,7 @@ body {
     .stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .products-grid,
     .customers-list {
         grid-template-columns: 1fr;

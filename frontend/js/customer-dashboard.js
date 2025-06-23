@@ -40,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Load specific data for the section
             switch(section) {
                 case 'products':
-                    loadProducts();
+                loadProducts();
                     break;
                 case 'cart':
                     loadCart();
                     break;
                 case 'orders':
-                    loadOrders();
+                loadOrders();
                     break;
                 case 'profile':
                     loadProfile();
@@ -101,41 +101,41 @@ async function loadProducts() {
         const products = await response.json();
         
         const productsContainer = document.getElementById('productsContainer');
-        
+
         if (products.length === 0) {
             productsContainer.innerHTML = '<p class="no-data">No products available at the moment.</p>';
             return;
         }
-        
+
         productsContainer.innerHTML = products.map(product => `
             <div class="product-card" data-product-id="${product.id}" data-category="${product.category || 'Uncategorized'}">
-                <div class="product-image">
+            <div class="product-image">
                     <img src="${getProductImage(product.category)}" alt="${product.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNzBDMTE2LjU2OSA3MCAxMzAgODMuNDMxIDMwIDEwMEMxMzAgMTE2LjU2OSAxMTYuNTY5IDEzMCAxMDAgMTMwQzgzLjQzMSAxMzAgNzAgMTE2LjU2OSA3MCAxMEM3MCA4My40MzEgODMuNDMxIDcwIDEwMCA3MFoiIGZpbGw9IiNEMzQ3RjAiLz4KPHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDEwQzIyLjIwOTEgMTAgMjQgMTEuNzkwOSAyNCAxNEMyNCAxNi4yMDkxIDIyLjIwOTEgMTggMjAgMThDMTcuNzkwOSAxOCAxNiAxNi4yMDkxIDE2IDE0QzE2IDExLjc5MDkgMTcuNzkwOSAxMCAyMCAxMFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo8L3N2Zz4K'">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
                     <p class="product-brand">${product.brand || 'N/A'}</p>
                     <p class="product-category">${product.category || 'Uncategorized'}</p>
                     <p class="product-sku">SKU: ${product.sku}</p>
-                    <p class="product-price">$${product.price.toFixed(2)}</p>
+                <p class="product-price">$${product.price.toFixed(2)}</p>
                     <p class="product-stock ${product.quantity < 10 ? 'low-stock' : ''}">
                         <i class="fas fa-warehouse"></i> 
                         ${product.quantity} in stock
-                    </p>
+                </p>
                 </div>
                 <div class="product-actions">
-                    <button class="btn btn-primary" 
-                        onclick="addToCart(${product.id})"
-                        ${product.quantity === 0 ? 'disabled' : ''}>
+                <button class="btn btn-primary" 
+                    onclick="addToCart(${product.id})"
+                    ${product.quantity === 0 ? 'disabled' : ''}>
                         <i class="fas fa-shopping-cart"></i> 
                         ${product.quantity === 0 ? 'Out of Stock' : 'Add to Cart'}
                     </button>
                     <button class="btn btn-secondary" onclick="viewProductDetails(${product.id})">
                         <i class="fas fa-eye"></i> View Details
-                    </button>
-                </div>
+                </button>
             </div>
-        `).join('');
+        </div>
+    `).join('');
     } catch (error) {
         console.error('Error loading products:', error);
         showMessage('Error loading products', 'error');
@@ -177,7 +177,7 @@ function handleSearch(event) {
 function addToCart(productId) {
     // Get current cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
+
     // Check if product is already in cart
     const existingItem = cart.find(item => item.id === productId);
     
@@ -196,7 +196,7 @@ function addToCart(productId) {
             quantity: 1
         });
     }
-    
+
     // Save updated cart
     localStorage.setItem('cart', JSON.stringify(cart));
     
@@ -229,7 +229,7 @@ function loadCart() {
             </div>
             <div class="item-actions">
                 <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                <span>${item.quantity}</span>
+                    <span>${item.quantity}</span>
                 <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
                 <button onclick="removeFromCart(${item.id})" class="remove-btn">
                     <i class="fas fa-trash"></i>
@@ -237,13 +237,13 @@ function loadCart() {
             </div>
         </div>
     `).join('');
-    
+
     cartTotal.textContent = `$${total.toFixed(2)}`;
 }
 
 function updateCartItemQuantity(productId, newQuantity) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
+
     if (newQuantity <= 0) {
         cart = cart.filter(item => item.id !== productId);
     } else {
@@ -279,7 +279,7 @@ async function loadOrders() {
         
         if (customerOrders.length === 0) {
             ordersContainer.innerHTML = '<p class="no-data">No orders found. Start shopping to see your orders here!</p>';
-            return;
+        return;
         }
         
         ordersContainer.innerHTML = customerOrders.map(order => `
@@ -421,7 +421,7 @@ function showMessage(message, type) {
     `;
     
     document.body.appendChild(messageDiv);
-    
+
     setTimeout(() => {
         messageDiv.remove();
     }, 3000);
@@ -432,7 +432,7 @@ window.onclick = function(event) {
     const modals = document.querySelectorAll('.modal');
     modals.forEach(modal => {
         if (event.target === modal) {
-            modal.style.display = 'none';
-        }
+    modal.style.display = 'none';
+}
     });
 } 
