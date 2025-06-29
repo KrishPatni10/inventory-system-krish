@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - IMS</title>
+    <link rel="stylesheet" href="../css/customer-dashboard.css">
+    <link rel="stylesheet" href="../css/customer-profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>IMS Customer</h2>
+            </div>
+            <ul class="nav">
+                <li class="nav-item" data-section="products">
+                    <a href="/customer-dashboard">
+                        <i class="fas fa-box"></i>
+                        Products
+                    </a>
+                </li>
+                <li class="nav-item" data-section="cart">
+                    <a href="/customer-dashboard#cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                    </a>
+                </li>
+                <li class="nav-item" data-section="orders">
+                    <a href="/customer-dashboard#orders">
+                        <i class="fas fa-list"></i>
+                        My Orders
+                    </a>
+                </li>
+                <li class="nav-item" data-section="returns">
+                    <a href="/customer-dashboard#returns">
+                        <i class="fas fa-undo"></i>
+                        Returns
+                    </a>
+                </li>
+                <li class="nav-item active" data-section="profile">
+                    <a href="/customer-profile">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a href="/">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <a href="/customer-dashboard">Dashboard</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>My Profile</span>
+                </div>
+                <div class="user-info">
+                    <span id="username"></span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Profile Stats Widgets -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Orders</h3>
+                            <p id="totalOrders">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Spent</h3>
+                            <p id="totalSpent">₹0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Last Order</h3>
+                            <p id="lastOrderDate">Never</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Information -->
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h2>Profile Information</h2>
+                        <button class="btn btn-secondary" id="editProfileBtn" onclick="toggleEditMode()">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName" name="fullName" required readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" required readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea id="address" name="address" rows="3" required readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions" id="profileActions" style="display: none;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="cancelEdit()">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Change Password Section -->
+                <div class="password-section">
+                    <div class="section-header">
+                        <h2>Change Password</h2>
+                    </div>
+                    
+                    <div class="password-card">
+                        <form id="passwordForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" name="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" name="newPassword" required>
+                                    <div class="password-strength" id="passwordStrength"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                    <div class="password-match" id="passwordMatch"></div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Section -->
+                <div class="orders-section">
+                    <div class="section-header">
+                        <h2>Recent Orders</h2>
+                        <a href="/customer-dashboard#orders" class="btn btn-secondary">
+                            <i class="fas fa-list"></i> View All Orders
+                        </a>
+                    </div>
+                    
+                    <div class="orders-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <!-- Recent orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <span class="close" onclick="closeModal('orderDetailsModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/customer-profile.js"></script>
+</body>
+</html> 

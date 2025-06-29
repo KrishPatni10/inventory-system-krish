@@ -127,6 +127,18 @@ const api = {
         return response.json();
     },
 
+    async getOrderDetails(id) {
+        const response = await fetch(`${API_BASE_URL}/api/orders/${id}`, {
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch order details');
+        }
+
+        return response.json();
+    },
+
     // Customers
     async getCustomers() {
         const response = await fetch(`${API_BASE_URL}/api/customers`, {
@@ -187,6 +199,18 @@ const api = {
         return response.json();
     },
 
+    async getCurrentCustomer() {
+        const response = await fetch(`${API_BASE_URL}/api/customer/me`, {
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch current customer');
+        }
+
+        return response.json();
+    },
+
     // Dashboard
     async getDashboardStats() {
         const response = await fetch(`${API_BASE_URL}/api/dashboard`, {
@@ -209,6 +233,23 @@ const api = {
         if (response.ok) {
             window.location.href = '/';
         }
+    },
+
+    async searchProductsAI(query) {
+        const response = await fetch(`${API_BASE_URL}/api/search-ai`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query }),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to search products');
+        }
+
+        return response.json();
     }
 };
 

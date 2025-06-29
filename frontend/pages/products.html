@@ -80,9 +80,20 @@
             <div class="content">
                 <div class="section-header">
                     <h1>Products Management</h1>
-                    <button class="btn btn-primary" onclick="openAddProductModal()">
-                        <i class="fas fa-plus"></i> Add New Product
-                    </button>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="openBarcodeScanner()">
+                            <i class="fas fa-barcode"></i> Scan Barcode
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadProductsCSV()">
+                            <i class="fas fa-download"></i> Download CSV
+                        </button>
+                        <button class="btn btn-secondary" onclick="openBulkUploadModal()">
+                            <i class="fas fa-upload"></i> Bulk Upload
+                        </button>
+                        <button class="btn btn-primary" onclick="openAddProductModal()">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                    </div>
                 </div>
 
                 <div class="products-table">
@@ -149,6 +160,76 @@
                     <button type="button" class="btn btn-secondary" onclick="closeModal('addProductModal')">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Bulk Upload Modal -->
+    <div id="bulkUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Bulk Upload Products</h2>
+                <span class="close" onclick="closeModal('bulkUploadModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="upload-instructions">
+                    <h3>Instructions:</h3>
+                    <ul>
+                        <li>Upload a CSV or Excel file with the following columns:</li>
+                        <li><strong>Required:</strong> name, sku, price, quantity</li>
+                        <li><strong>Optional:</strong> brand, supplier, category, image</li>
+                        <li>Prices should be in Indian Rupees (₹)</li>
+                        <li>SKU must be unique for each product</li>
+                    </ul>
+                    <div class="sample-csv">
+                        <h4>Sample CSV Format:</h4>
+                        <pre>name,sku,brand,price,quantity,supplier,category,image
+iPhone 15,IPH15-128,Apple,83000,25,Apple Inc.,Smartphones,https://example.com/image.jpg
+Samsung Galaxy S24,SAMS24-256,Samsung,74700,18,Samsung Electronics,Smartphones,</pre>
+                    </div>
+                </div>
+                <form id="bulkUploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="uploadFile">Select File (CSV or Excel)</label>
+                        <input type="file" id="uploadFile" accept=".csv,.xlsx,.xls" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Upload Products
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('bulkUploadModal')">Cancel</button>
+                    </div>
+                </form>
+                <div id="uploadResults" class="upload-results" style="display: none;">
+                    <h3>Upload Results:</h3>
+                    <div id="uploadResultsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barcode Scanner Modal -->
+    <div id="barcodeScannerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Barcode Scanner</h2>
+                <span class="close" onclick="closeModal('barcodeScannerModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="scanner-instructions">
+                    <h3>Scan Product Barcode/SKU</h3>
+                    <p>Enter the product SKU or scan the barcode to find product details:</p>
+                </div>
+                <div class="scanner-input">
+                    <input type="text" id="barcodeInput" placeholder="Enter SKU or scan barcode..." autofocus>
+                    <button class="btn btn-primary" onclick="scanBarcode()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div id="scanResults" class="scan-results" style="display: none;">
+                    <h3>Scan Results:</h3>
+                    <div id="scanResultsContent"></div>
+                </div>
+            </div>
         </div>
     </div>
 

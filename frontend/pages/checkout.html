@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - IMS</title>
+    <link rel="stylesheet" href="../css/customer-dashboard.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>IMS Customer</h2>
+            </div>
+            <ul class="nav">
+                <li class="nav-item" data-section="products">
+                    <a href="/customer-dashboard">
+                        <i class="fas fa-box"></i>
+                        Products
+                    </a>
+                </li>
+                <li class="nav-item" data-section="cart">
+                    <a href="/customer-dashboard#cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                    </a>
+                </li>
+                <li class="nav-item" data-section="orders">
+                    <a href="/customer-dashboard#orders">
+                        <i class="fas fa-list"></i>
+                        My Orders
+                    </a>
+                </li>
+                <li class="nav-item" data-section="returns">
+                    <a href="/customer-dashboard#returns">
+                        <i class="fas fa-undo"></i>
+                        Returns
+                    </a>
+                </li>
+                <li class="nav-item" data-section="profile">
+                    <a href="/customer-profile">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a href="/">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="breadcrumb">
+                    <a href="/customer-dashboard">Dashboard</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <a href="/customer-dashboard#cart">Cart</a>
+                    <i class="fas fa-chevron-right"></i>
+                    <span>Checkout</span>
+                </div>
+                <div class="user-info">
+                    <span id="username"></span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+
+            <div class="checkout-container">
+                <div class="checkout-content">
+                    <!-- Checkout Form -->
+                    <div class="checkout-form-section">
+                        <div class="section-header">
+                            <h2>Checkout Information</h2>
+                        </div>
+                        
+                        <div class="checkout-form-card">
+                            <form id="checkoutForm">
+                                <div class="form-section">
+                                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="fullName">Full Name *</label>
+                                            <input type="text" id="fullName" name="fullName" required>
+                                            <div class="error-message" id="fullNameError"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email Address *</label>
+                                            <input type="email" id="email" name="email" required>
+                                            <div class="error-message" id="emailError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number *</label>
+                                            <input type="tel" id="phone" name="phone" required>
+                                            <div class="error-message" id="phoneError"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <h3><i class="fas fa-map-marker-alt"></i> Shipping Address</h3>
+                                    <div class="form-group">
+                                        <label for="address">Address *</label>
+                                        <textarea id="address" name="address" rows="3" required placeholder="Enter your complete address"></textarea>
+                                        <div class="error-message" id="addressError"></div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="city">City *</label>
+                                            <input type="text" id="city" name="city" required>
+                                            <div class="error-message" id="cityError"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state">State *</label>
+                                            <input type="text" id="state" name="state" required>
+                                            <div class="error-message" id="stateError"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="pincode">Pincode *</label>
+                                            <input type="text" id="pincode" name="pincode" required maxlength="6">
+                                            <div class="error-message" id="pincodeError"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-section">
+                                    <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+                                    <div class="form-group">
+                                        <label for="paymentMethod">Select Payment Method *</label>
+                                        <select id="paymentMethod" name="paymentMethod" required>
+                                            <option value="">Choose payment method</option>
+                                            <option value="cod" selected>Cash on Delivery</option>
+                                            <option value="card">Credit/Debit Card</option>
+                                            <option value="upi">UPI</option>
+                                            <option value="netbanking">Net Banking</option>
+                                        </select>
+                                        <div class="error-message" id="paymentMethodError"></div>
+                                    </div>
+                                    
+                                    <!-- Card Details (hidden by default) -->
+                                    <div id="cardDetails" class="card-details" style="display: none;">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="cardNumber">Card Number</label>
+                                                <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456">
+                                                <div class="error-message" id="cardNumberError"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="expiryDate">Expiry Date</label>
+                                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                                                <div class="error-message" id="expiryDateError"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cvv">CVV</label>
+                                                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                                                <div class="error-message" id="cvvError"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="order-summary-section">
+                        <div class="section-header">
+                            <h2>Order Summary</h2>
+                        </div>
+                        
+                        <div class="order-summary-card">
+                            <div class="cart-items" id="checkoutItems">
+                                <!-- Cart items will be loaded here -->
+                            </div>
+                            
+                            <div class="order-totals">
+                                <div class="total-row">
+                                    <span>Subtotal</span>
+                                    <span id="subtotal">₹0</span>
+                                </div>
+                                <div class="total-row">
+                                    <span>Shipping</span>
+                                    <span id="shipping">₹0</span>
+                                </div>
+                                <div class="total-row">
+                                    <span>Tax (18% GST)</span>
+                                    <span id="tax">₹0</span>
+                                </div>
+                                <div class="total-row total-final">
+                                    <span>Total</span>
+                                    <span id="total">₹0</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Order Security Banner -->
+                            <div class="order-security-banner">
+                                <div class="security-info">
+                                    <div class="security-item">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>Secure Payment</span>
+                                    </div>
+                                    <div class="security-item">
+                                        <i class="fas fa-truck"></i>
+                                        <span>Free Shipping on orders above ₹500</span>
+                                    </div>
+                                    <div class="security-item">
+                                        <i class="fas fa-undo"></i>
+                                        <span>Easy Returns</span>
+                                    </div>
+                                </div>
+                                <div class="order-summary-info">
+                                    <p><i class="fas fa-info-circle"></i> Your order will be processed securely and shipped within 2-3 business days.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="checkout-actions">
+                                <button class="btn btn-primary btn-large" onclick="placeOrder()">
+                                    <i class="fas fa-shopping-cart"></i> Place Order
+                                </button>
+                                <a href="/customer-dashboard#cart" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back to Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-body text-center">
+                <div class="loading-spinner"></div>
+                <h3>Processing Order...</h3>
+                <p>Please wait while we process your order.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/checkout.js"></script>
+</body>
+</html> 

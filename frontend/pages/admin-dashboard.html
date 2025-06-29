@@ -5,45 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Inventory Management System</title>
     <link rel="stylesheet" href="../css/admin-dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Ensure Chart.js is loaded before proceeding
+        window.addEventListener('load', function() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js failed to load');
+                // Try alternative CDN
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
+                script.onload = function() {
+                    console.log('Chart.js loaded from alternative CDN');
+                };
+                script.onerror = function() {
+                    console.error('Failed to load Chart.js from alternative CDN');
+                };
+                document.head.appendChild(script);
+            } else {
+                console.log('Chart.js loaded successfully');
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
+        <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>IMS Admin</h2>
             </div>
-            <ul class="nav-links">
-                <li class="active" data-section="dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+            <ul class="nav">
+                <li class="nav-item active" data-section="dashboard">
+                    <a href="#">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
                 </li>
-                <li data-section="products">
-                    <i class="fas fa-box"></i>
-                    <span>Products</span>
+                <li class="nav-item" data-section="products">
+                    <a href="#">
+                        <i class="fas fa-box"></i>
+                        Products
+                    </a>
                 </li>
-                <li data-section="orders">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Orders</span>
+                <li class="nav-item" data-section="orders">
+                    <a href="#">
+                        <i class="fas fa-shopping-cart"></i>
+                        Orders
+                    </a>
                 </li>
-                <li data-section="customers">
-                    <i class="fas fa-users"></i>
-                    <span>Customers</span>
+                <li class="nav-item" data-section="customers">
+                    <a href="#">
+                        <i class="fas fa-users"></i>
+                        Customers
+                    </a>
                 </li>
-                <li data-section="reports">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reports</span>
+                <li class="nav-item" data-section="returns">
+                    <a href="#">
+                        <i class="fas fa-undo"></i>
+                        Returns
+                    </a>
                 </li>
-                <li id="logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                <li class="nav-item" data-section="reports">
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a href="#">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
                 </li>
             </ul>
-        </nav>
+        </aside>
 
         <main class="main-content">
             <div class="top-bar">
-                <div class="search-box">
+                <div class="search-bar">
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search...">
                 </div>
@@ -86,6 +125,48 @@
                                 <p id="totalRevenue">$0</p>
                             </div>
                         </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-info">
+                                <h3>Pending Orders</h3>
+                                <p id="pendingOrders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-info">
+                                <h3>Completed Orders</h3>
+                                <p id="completedOrders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-user-check"></i>
+                            <div class="stat-info">
+                                <h3>Active Customers</h3>
+                                <p id="activeCustomers">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="stat-info">
+                                <h3>Recent Orders (30d)</h3>
+                                <p id="recentOrders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="stat-info">
+                                <h3>Low Stock Items</h3>
+                                <p id="lowStock">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-warehouse"></i>
+                            <div class="stat-info">
+                                <h3>Inventory Value</h3>
+                                <p id="inventoryValue">$0</p>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -120,6 +201,25 @@
                     </div>
                     <div class="customers-list" id="customersContainer">
                         <!-- Customers will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Returns Section -->
+                <section id="returns" class="section">
+                    <div class="section-header">
+                        <h2>Returns Management</h2>
+                        <div class="header-actions">
+                            <select id="returnsStatusFilter" onchange="filterReturns()">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="refunded">Refunded</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="returns-list" id="returnsContainer">
+                        <!-- Returns will be loaded here -->
                     </div>
                 </section>
 
@@ -198,20 +298,6 @@
                         <!-- Revenue Analysis -->
                         <div class="report-card">
                             <h3>Revenue Analysis</h3>
-                            <div class="revenue-stats">
-                                <div class="stat-item">
-                                    <span class="stat-label">Total Revenue</span>
-                                    <span class="stat-value" id="totalRevenue">$0</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Average Order Value</span>
-                                    <span class="stat-value" id="avgOrderValue">$0</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Orders Count</span>
-                                    <span class="stat-value" id="ordersCount">0</span>
-                                </div>
-                            </div>
                             <div class="chart-container">
                                 <canvas id="revenueChart"></canvas>
                             </div>
@@ -235,8 +321,8 @@
                     <input type="text" id="productName" required>
                 </div>
                 <div class="form-group">
-                    <label for="productSKU">SKU</label>
-                    <input type="text" id="productSKU" required>
+                    <label for="productSku">SKU</label>
+                    <input type="text" id="productSku" required>
                 </div>
                 <div class="form-group">
                     <label for="productBrand">Brand</label>
@@ -275,7 +361,7 @@
             </div>
             <form id="addCustomerForm">
                 <div class="form-group">
-                    <label for="customerName">Customer Name</label>
+                    <label for="customerName">Full Name</label>
                     <input type="text" id="customerName" required>
                 </div>
                 <div class="form-group">
@@ -295,6 +381,104 @@
                     <button type="button" class="btn btn-secondary" onclick="closeModal('addCustomerModal')">Cancel</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- View Customer Modal -->
+    <div id="viewCustomerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Customer Details</h2>
+                <span class="close" onclick="closeModal('viewCustomerModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="customer-details" id="customerDetailsContent">
+                    <!-- Customer details will be loaded here -->
+                </div>
+                <div class="recent-orders">
+                    <h3><i class="fas fa-shopping-cart"></i> Recent Orders</h3>
+                    <div id="customerOrdersList">
+                        <!-- Customer orders will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="editCurrentCustomer()">
+                    <i class="fas fa-edit"></i> Edit Customer
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('viewCustomerModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Customer Modal -->
+    <div id="editCustomerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Customer</h2>
+                <span class="close" onclick="closeModal('editCustomerModal')">&times;</span>
+            </div>
+            <form id="editCustomerForm">
+                <input type="hidden" id="editCustomerId">
+                <div class="form-group">
+                    <label for="editCustomerName">Full Name</label>
+                    <input type="text" id="editCustomerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCustomerEmail">Email</label>
+                    <input type="email" id="editCustomerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCustomerPhone">Phone</label>
+                    <input type="tel" id="editCustomerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="editCustomerAddress">Address</label>
+                    <textarea id="editCustomerAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update Customer</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editCustomerModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Order Details Modal -->
+    <div id="viewOrderModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Order Details</h2>
+                <span class="close" onclick="closeModal('viewOrderModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="order-info-section">
+                    <h3><i class="fas fa-info-circle"></i> Order Information</h3>
+                    <div class="order-details" id="orderDetailsContent">
+                        <!-- Order details will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="customer-info-section">
+                    <h3><i class="fas fa-user"></i> Customer Information</h3>
+                    <div class="customer-details" id="orderCustomerContent">
+                        <!-- Customer details will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="order-items-section">
+                    <h3><i class="fas fa-shopping-bag"></i> Order Items</h3>
+                    <div class="order-items" id="orderItemsContent">
+                        <!-- Order items with images will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="updateOrderStatus()">
+                    <i class="fas fa-edit"></i> Update Status
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('viewOrderModal')">Close</button>
+            </div>
         </div>
     </div>
 
